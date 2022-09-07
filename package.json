@@ -1,19 +1,25 @@
 {
   "name": "electron-build-test",
+  "author": "18alantom",
+  "description": "test app to build electron",
   "private": true,
   "version": "0.0.0",
-  "main": "index.js",
+  "main": "main/index.js",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
+    "serve": "node serve.mjs",
+    "build": "node build.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
-    "electron": "^19.0.0",
     "vue": "^3.2.37"
   },
   "devDependencies": {
+    "electron": "^19.0.0",
     "@vitejs/plugin-vue": "^3.1.0",
+    "electron-builder": "^23.3.3",
+    "execa": "^6.1.0",
+    "fs-extra": "^10.1.0",
     "typescript": "^4.6.4",
     "vite": "^3.1.0",
     "vue-tsc": "^0.40.4"

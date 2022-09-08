@@ -3,6 +3,19 @@ const fs = require('fs');
 const { app, BrowserWindow, protocol } = require('electron');
 const { ipcMain } = require('electron/main');
 
+/**
+ * Nonsense db code to test the involvement of
+ * native dependencies (better-sqlite3)
+ */
+const COUNTER = 'counter';
+const db = require('better-sqlite3')(':memory:');
+db.prepare(
+  `create table if not exists incr 
+        (name text primary key,
+        value integer default 0)`
+).run();
+db.prepare('insert into incr (name, value) values (?, 0)').run(COUNTER);
+
 const isDev = process.env.MODE === 'development';
 
 if (!isDev) {
@@ -32,7 +45,15 @@ function createWindow() {
   }
 }
 
-ipcMain.handle('incr', (_, a) => Number(a) + 2);
+ipcMain.handle('incr', (_, a) => {
+  const value = Number(a) + 2;
+  const dbwrite = db
+    .prepare('update incr set value = ? where name = ?')
+    .run(value, COUNTER);
+  console.log(dbwrite);
+
+  return value;
+});
 
 app.whenReady().then(() => {
   createWindow();

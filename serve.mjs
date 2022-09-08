@@ -2,13 +2,12 @@ import { execa } from 'execa';
 /**
  * Serve Script
  *
- * To develop an electron app, when using a dev server
- * for the frontend, two processes need to be run
+ * To develop an electron app, when using a dev server for the frontend, two
+ * processes need to be run
  *
- * 1. The dev server: here the vite dev server is run
- *    it serves the files on 0.0.0.0:3000
- * 2. The elctron processe: the electron process will load
- *    the dev server url
+ * 1. The frontend dev server: here the vite dev server is run it serves the
+ *    files on 0.0.0.0:3000
+ * 2. The electron process: the electron process will load the dev server url
  */
 process.env.MODE = 'development';
 

@@ -16,15 +16,12 @@ export default defineComponent({
   methods: {
     async incr() {
       const a = this.counter;
+      /**
+       * window.api.incr is set by the preload.js script
+       */
 
       // @ts-ignore
-      const { incr } = window?.api ?? {};
-      if (incr) {
-        console.log('running in electron');
-        this.counter = await incr(a);
-      }
-
-      this.counter = a + 1;
+      this.counter = await window?.api?.incr(this.counter);
     },
   },
 });

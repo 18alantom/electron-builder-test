@@ -1,7 +1,7 @@
 {
-  "name": "electron-build-test",
+  "name": "electron-builder-test",
   "author": "18alantom",
-  "description": "test app to build electron",
+  "description": "app to test electron-builder",
   "private": true,
   "version": "0.0.0",
   "main": "main/index.js",

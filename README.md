@@ -1,16 +1,72 @@
-# Vue 3 + TypeScript + Vite
+# Electron Builder Test
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+> What is this?
 
-## Recommended IDE Setup
+Annotated repo containing code of how an electron application can be built and
+packaged.
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+> Why is this?
 
-## Type Support For `.vue` Imports in TS
+It's basically an example of how to build and package an electron app without
+the use of any plugins such as [vue-cli-plugin-electron-builder](https://github.com/nklayman/vue-cli-plugin-electron-builder).
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's Take Over mode by following these steps:
+> What does the electron app do?
 
-1. Run `Extensions: Show Built-in Extensions` from VS Code's command palette, look for `TypeScript and JavaScript Language Features`, then right click and select `Disable (Workspace)`. By default, Take Over mode will enable itself if the default TypeScript extension is disabled.
-2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
+Nothing much it's just a single button that increments a counter, the counter
+value is written to an sqlite3 (in memory) db.
 
-You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
+---
+
+## Repo Layout
+
+Main repo files and folders
+
+```bash
+.
+├── build.mjs               # build script
+├── serve.mjs               # serve script
+├── main                    # electron code
+├── src                     # frontend Vue + TS code
+├── index.html              # frontend HTML entrypoint
+├── electron-builder.yml    # electron builder config
+└── vite.config.ts           # vite dev server configurations
+```
+
+The other files in the repo root are the usual js repo files and tsconfig files ([ref](https://www.typescriptlang.org/tsconfig)).
+
+## Running the Scripts
+
+To run the app in **development** call:
+
+```bash
+yarn serve
+```
+
+this will run the `serve.mjs` script that starts the frontend dev server and the electron process.
+
+To **build** the application and **create installers** call:
+
+```bash
+yarn build
+```
+
+this will generate the installers into `./dist`
+
+**Note:** to build for other targets, i.e. windows or linux you will need to
+alter the `electron-builder.yml` file ([ref](https://www.electron.build/configuration/configuration)).
+
+## Depedencies
+
+- `better-sqlite3` this is a native dependency that needs to be built against electron's node ([ref](https://www.electronjs.org/docs/latest/tutorial/using-native-node-modules)). It's included to test this (inclusion of native dep). The `"postinstall"` script in the `package.json` takes care of this.
+- `execa` convenience lib that builds over `node:child_process`, used in the serve script.
+- `fs-extra` convenience lib that builds over `fs`, used in the build script.
+
+Other dependencies are self explanatory. The front end dependencies are added by `yarn create vite` ([ref]( the serve script)), a script used to scaffold a `vite` handled app.
+
+## Building Steps
+
+Building an electron app into a distributable package has a few steps:
+
+1. **Building the frontend code**: here any frontend technology can be used, this repo makes use of Vue and TypeScript, both of which need to be built before it can be run by a browser (which in the case of electron is chromium). The build process (transpiling, bundling, minification, etc) is handled using Vite.
+2. **Building the electron code**: since the electron code is already written in using Vanilla Js, no building is required here, else again you can use your build tool of choice.
+3. **Running Electron Builder**: once built, electron-builder is used, this packages all the built code into executables or installers.

@@ -29,7 +29,8 @@ Main repo files and folders
 ├── src                     # frontend Vue + TS code
 ├── index.html              # frontend HTML entrypoint
 ├── electron-builder.yml    # electron builder config
-└── vite.config.ts           # vite dev server configurations
+└── vite.config.ts          # vite dev server configurations
+
 ```
 
 The other files in the repo root are the usual js repo files and tsconfig files ([ref](https://www.typescriptlang.org/tsconfig)).

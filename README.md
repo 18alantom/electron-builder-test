@@ -25,7 +25,7 @@ Main repo files and folders
 .
 ├── build.mjs               # build script
 ├── serve.mjs               # serve script
-├── main                    # electron code
+├── main                    # electron Vanilla JS code
 ├── src                     # frontend Vue + TS code
 ├── index.html              # frontend HTML entrypoint
 ├── electron-builder.yml    # electron builder config
